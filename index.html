@@ -81,20 +81,21 @@
 
     <div class="container">
         <h2>CEO SENSI</h2>
-        <p>Get your unique 1-day free activation key below:</p>
+        <p>Your 1-day free activation key is ready:</p>
 
         <div id="keySection">
-            <div class="key-box" id="keyDisplay">Click below to generate key</div>
-            <button class="btn" id="generateBtn" onclick="getNextKey()">GET FREE KEY</button>
+            <div class="key-box" id="keyDisplay">Generating...</div>
+            <button class="btn" id="copyBtn" onclick="copyAndRedirect()">COPY KEY</button>
         </div>
 
         <div id="finishedSection" class="hidden">
-            <p style="color: #ff5555; font-weight: bold;">❌ All 20 Free Keys have been claimed for today!</p>
-            <a href="https://wa.me/8801717724407?text=Hello%20CEO%20SENSI,%20all%20free%20keys%20are%20finished.%20I%20want%20to%20get%20a%20key!" class="whatsapp-btn" target="_blank">📞 Contact Admin via WhatsApp</a>
+            <p style="color: #ff5555; font-weight: bold;">❌ All Free Keys have been claimed for today!</p>
+            <a href="https://wa.me/8801717724407?text=Hello%20CEO%20SENSI,%20I%20want%20to%20buy%20a%20VIP%20License%20Key!" class="whatsapp-btn" target="_blank">📞 Contact Admin via WhatsApp</a>
         </div>
     </div>
 
     <script>
+        // ২০টি কি এর লিস্ট
         const keys = [
             "CEO-7X9K-2M4P", "CEO-8N1Q-9L3V", "CEO-4B7W-5R8Z", "CEO-1Y6T-3X9D", "CEO-9A2C-8V5K",
             "CEO-5M8E-7N1Q", "CEO-3Z4P-9R2W", "CEO-8K1V-6X5T", "CEO-2L9D-4A7C", "CEO-7R5Z-1Y8M",
@@ -102,40 +103,42 @@
             "CEO-3P4Y-9X2W", "CEO-8R1D-6K5T", "CEO-2Z9A-4V7C", "CEO-7B5E-1N8M", "CEO-6X3Q-9R2K"
         ];
 
-        function getNextKey() {
+        // আপনার LootLabs শর্ট লিংক
+        const lootlabsUrl = "https://loot-link.com/s?o5rZNtR5";
+
+        window.onload = function() {
             let currentIndex = parseInt(localStorage.getItem('ceo_key_index') || '0');
 
             if (currentIndex < keys.length) {
                 let assignedKey = keys[currentIndex];
                 document.getElementById('keyDisplay').innerText = assignedKey;
-                
-                // পরবর্তী ক্লিকের জন্য ইনডেক্স বাড়িয়ে সেভ করা
-                localStorage.setItem('ceo_key_index', currentIndex + 1);
-                
-                document.getElementById('generateBtn').innerText = "COPY KEY";
-                document.getElementById('generateBtn').setAttribute("onclick", "copyKey()");
             } else {
-                showFinishedState();
+                document.getElementById('keySection').classList.add('hidden');
+                document.getElementById('finishedSection').classList.remove('hidden');
             }
-        }
+        };
 
-        function copyKey() {
+        function copyAndRedirect() {
             let keyText = document.getElementById('keyDisplay').innerText;
-            navigator.clipboard.writeText(keyText).then(() => {
-                alert("Key copied to clipboard!");
-            });
-        }
-
-        window.onload = function() {
             let currentIndex = parseInt(localStorage.getItem('ceo_key_index') || '0');
-            if (currentIndex >= keys.length) {
-                showFinishedState();
-            }
-        }
 
-        function showFinishedState() {
-            document.getElementById('keySection').classList.add('hidden');
-            document.getElementById('finishedSection').classList.remove('hidden');
+            // ১. কি টেক্সট ক্লিপবোর্ডে কপি করা
+            navigator.clipboard.writeText(keyText).then(() => {
+                // ২. পরবর্তী ভিজিটের জন্য কি-এর ইনডেক্স ১ বাড়িয়ে দেওয়া
+                localStorage.setItem('ceo_key_index', currentIndex + 1);
+
+                document.getElementById('copyBtn').innerText = "COPIED! REDIRECTING...";
+                document.getElementById('copyBtn').style.background = "#ffcc00";
+
+                // ৩. মাত্র ৫০০ মিলি-সেকেন্ড (০.৫ সেকেন্ড) পর আবার LootLabs-এ পাঠিয়ে দেওয়া 🤣
+                setTimeout(function() {
+                    window.location.href = lootlabsUrl;
+                }, 500);
+            }).catch(err => {
+                // ব্যাকআপ ফালব্যাক (পুরোনো ব্রাউজারের জন্য)
+                localStorage.setItem('ceo_key_index', currentIndex + 1);
+                window.location.href = lootlabsUrl;
+            });
         }
     </script>
 
